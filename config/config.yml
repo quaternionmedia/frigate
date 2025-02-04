@@ -1,0 +1,210 @@
+mqtt:
+  enabled: false
+
+record:
+  enabled: true
+  retain:
+    days: 7
+    mode: motion
+  events:
+    retain:
+      default: 30
+      mode: motion
+  # export:
+  #   timelapse_args: "-vf setpts=PTS/60"
+
+timestamp_style:
+  format: '%Y-%m-%d %H:%M:%S %Z'
+  position: br
+
+snapshots:
+  enabled: false
+  retain:
+    default: 30
+
+audio:
+  enabled: true
+  max_not_heard: 30
+  min_volume: 500
+  listen:
+    - bark
+    - fire_alarm
+    - scream
+    - speech
+    - yell
+  filters:
+    speech:
+      threshold: 0.8
+
+cameras:
+  HOffice:
+    enabled: true
+    audio:
+      enabled: true
+    ffmpeg:
+      input_args: preset-rtmp-generic
+      inputs:
+        - path: rtmp://host.containers.internal/HOffice
+          roles:
+            - audio
+            - detect
+            - record
+
+    detect:
+      enabled: true
+    # zones:
+    #   - name: "HOffice"
+
+  Laboratory:
+    enabled: true
+    audio:
+      enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-generic
+      hwaccel_args: []
+      inputs:
+        - path: rtsp://host.containers.internal:8554/Laboratory
+          roles:
+            - detect
+            - record
+            - audio
+
+    detect:
+      enabled: true
+
+version: 0.14
+
+detect:
+  enabled: true
+  width: 640
+  height: 480
+  fps: 5
+
+motion:
+  enabled: true
+
+objects:
+  track:
+    - person
+    - bicycle
+    - car
+    - motorcycle
+    - airplane
+    - bus
+    - train
+    - car
+    - boat
+    - traffic light
+    - fire hydrant
+    - street sign
+    - stop sign
+    - parking meter
+    - bench
+    - bird
+    - cat
+    - dog
+    - horse
+    - sheep
+    - cow
+    - elephant
+    - bear
+    - zebra
+    - giraffe
+    - hat
+    - backpack
+    - umbrella
+    - shoe
+    - eye glasses
+    - handbag
+    - tie
+    - suitcase
+    - frisbee
+    - skis
+    - snowboard
+    - sports ball
+    - kite
+    - baseball bat
+    - baseball glove
+    - skateboard
+    - surfboard
+    - tennis racket
+    - bottle
+    - plate
+    - wine glass
+    - cup
+    - fork
+    - knife
+    - spoon
+    - bowl
+    - banana
+    - apple
+    - sandwich
+    - orange
+    - broccoli
+    - carrot
+    - hot dog
+    - pizza
+    - donut
+    - cake
+    - chair
+    - couch
+    - potted plant
+    - bed
+    - mirror
+    - dining table
+    - window
+    - desk
+    - toilet
+    - door
+    - tv
+    - laptop
+    - mouse
+    - remote
+    - keyboard
+    - cell phone
+    - microwave
+    - oven
+    - toaster
+    - sink
+    - refrigerator
+    - blender
+    - book
+    - clock
+    - vase
+    - scissors
+    - teddy bear
+    - hair drier
+    - toothbrush
+    - hair brush
+
+review:
+  alerts:
+    labels:
+      - person
+      # - car
+  detections:
+    labels:
+      - person
+      - car
+      - cat
+      - dog
+      - hat
+      - eye glasses
+      - cup
+      - chair
+      - desk
+      - window
+      - book
+      - scissors
+
+ui:
+  timezone: America/Los_Angeles
+camera_groups:
+  Garage:
+    order: 1
+    icon: LuWarehouse
+    cameras: Laboratory
+  Inside:
+    order: 2
+    icon: LuHome
+    cameras: HOffice
